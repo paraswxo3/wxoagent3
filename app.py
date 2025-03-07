@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, Header, Depends, Security, HTTPException, Body, UploadFile
+from fastapi import FastAPI, File, Header, Depends, Security, HTTPException, Body, UploadFile,Request
 from fastapi.security import APIKeyHeader
 from pydantic import BaseModel
 
@@ -17,7 +17,9 @@ class OrderAmount(BaseModel):
     order_amount: float
 
 @app.post("/get_oroder_amount", response_model=OrderAmount)
-def get_oroder_amount(order_num: str = Body(..., embed=True)):
+def get_oroder_amount(request: Request,order_num: str = Body(..., embed=True)):
+    header_value = request.headers.get("X-CUSTOM-CALLER-ID")  # Replace with your header name
+    print("skill header",header_value)
     print("order_amount",30.15)
     return {"order_amount":30.15}
 
